@@ -871,19 +871,14 @@
                             replace "YOUR_FORM_ID" in the action below.
                 Option B — Google Form: delete the <form> below, add a link button to your Google Form instead.
             -->
-            <form id="reg-form" action="https://formspree.io/f/mpqoovko" method="POST" enctype="multipart/form-data">
+            <form id="reg-form" action="https://formspree.io/f/mpqoovko" method="POST">
 
                 <div class="form-section-label">Personal info</div>
                 <div class="form-grid">
                     <input type="text" name="name" placeholder="Full name (English)" required>
                     <input type="text" name="name_bangla" placeholder="পুরো নাম (বাংলা)">
                     <input type="date" name="dob" required title="Date of birth">
-                    <div class="form-field-wrap">
-                        <label class="file-label">
-                            <input type="file" name="photo" accept=".jpg,.jpeg,.png" required>
-                            <span class="file-text" id="photo-text">Profile photo (JPG or PNG)</span>
-                        </label>
-                    </div>
+                    <input type="url" name="photo_link" placeholder="Profile photo — paste Google Drive link (JPG or PNG)" style="grid-column:span 2">
                     <input type="text" name="height" placeholder="Height (cm)">
                     <input type="text" name="weight" placeholder="Weight (kg)">
                 </div>
@@ -960,8 +955,8 @@
     <div class="footer-inner">
         <div class="footer-logo">KHELO<span>AR</span></div>
         <div class="footer-links">
-            <a href="https://instagram.com/kheloar_bd?igsh=MXBqNzJiOXlma2VreQ==" target="_blank">Instagram</a>
-            <a href="https://facebook.com/Kheloar bd" target="_blank">Facebook</a>
+            <a href="https://instagram.com/kheloar" target="_blank">Instagram</a>
+            <a href="https://facebook.com/kheloar" target="_blank">Facebook</a>
         </div>
         <div class="footer-copy">&#169; 2025 Kheloar &middot; Bangladesh</div>
     </div>
@@ -978,12 +973,6 @@
         });
     }, { threshold: 0.08 });
     reveals.forEach(el => observer.observe(el));
-
-    document.querySelector('input[name="photo"]').addEventListener('change', function() {
-        const label = document.getElementById('photo-text');
-        label.textContent = this.files[0] ? this.files[0].name : 'Profile photo (JPG or PNG)';
-        label.classList.toggle('selected', !!this.files[0]);
-    });
 
     document.getElementById('reg-form').addEventListener('submit', function(e) {
         e.preventDefault();
