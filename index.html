@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kheloar — Build Your Football Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0B0B0B;
+            --surface: #141414;
+            --surface2: #1C1C1C;
+            --accent: #4F8EF7;
+            --accent-dim: rgba(79,142,247,0.1);
+            --accent-border: rgba(79,142,247,0.28);
+            --white: #F0F0F0;
+            --muted: #888;
+            --border: #242424;
+            --text: #E0E0E0;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 18px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(11,11,11,0.88);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 900;
+            font-size: 26px;
+            color: var(--white);
+            letter-spacing: 0.04em;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+        .logo span { color: var(--accent); }
+
+        .nav-cta {
+            padding: 9px 22px;
+            border: 1.5px solid var(--accent);
+            color: var(--accent);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .nav-cta:hover { background: var(--accent); color: #000; }
+
+        /* HERO */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 130px 48px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pitch-bg {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            opacity: 0.035;
+        }
+        .pitch-bg svg { width: 100%; height: 100%; }
+
+        .hero-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--accent);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 22px;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.1s;
+        }
+        .hero-eyebrow::before {
+            content: '';
+            width: 22px;
+            height: 1.5px;
+            background: var(--accent);
+        }
+
+        h1 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 900;
+            font-size: clamp(56px, 7.5vw, 94px);
+            line-height: 0.93;
+            color: var(--white);
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+            margin-bottom: 26px;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.2s;
+        }
+        h1 em {
+            font-style: normal;
+            color: var(--accent);
+            display: block;
+        }
+
+        .hero-sub {
+            font-size: 17px;
+            color: var(--muted);
+            line-height: 1.68;
+            max-width: 460px;
+            margin-bottom: 38px;
+            font-weight: 300;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.3s;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.4s;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            background: var(--accent);
+            color: #000;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: transform 0.2s, background 0.2s;
+        }
+        .btn-primary:hover { transform: translateY(-2px); background: #33ffaa; }
+
+        .btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 14px 20px;
+            color: var(--muted);
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .btn-ghost:hover { color: var(--white); }
+
+        /* PLAYER CARD MOCKUP */
+        .hero-visual {
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards 0.5s;
+        }
+
+        .player-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        .player-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--accent);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            margin-bottom: 20px;
+        }
+
+        .avatar {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            background: var(--accent-dim);
+            border: 1.5px solid var(--accent-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 900;
+            font-size: 20px;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .card-name {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 19px;
+            color: var(--white);
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+        .card-pos { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+        .card-available {
+            margin-left: auto;
+            padding: 3px 10px;
+            background: var(--accent-dim);
+            border: 1px solid var(--accent-border);
+            border-radius: 20px;
+            font-size: 11px;
+            color: var(--accent);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .card-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .stat {
+            background: var(--surface2);
+            border-radius: 10px;
+            padding: 12px 8px;
+            text-align: center;
+        }
+        .stat-val {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 22px;
+            color: var(--white);
+        }
+        .stat-lbl {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 1px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .card-video {
+            background: var(--surface2);
+            border-radius: 10px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border: 1px dashed var(--border);
+            margin-bottom: 14px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+        .play-btn {
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .tag {
+            padding: 3px 10px;
+            background: var(--surface2);
+            border-radius: 20px;
+            font-size: 11px;
+            color: var(--muted);
+            border: 1px solid var(--border);
+        }
+
+        /* DIVIDER SECTIONS */
+        .section-wrap {
+            border-top: 1px solid var(--border);
+            padding: 90px 48px;
+        }
+
+        .section-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 14px;
+        }
+        .eyebrow::before {
+            content: '';
+            width: 22px;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        h2 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 900;
+            font-size: clamp(38px, 5vw, 62px);
+            color: var(--white);
+            text-transform: uppercase;
+            line-height: 0.97;
+            margin-bottom: 14px;
+            letter-spacing: -0.01em;
+        }
+        h2 span { color: var(--accent); }
+
+        .section-desc {
+            font-size: 17px;
+            color: var(--muted);
+            font-weight: 300;
+            max-width: 520px;
+            line-height: 1.65;
+        }
+
+        /* PROBLEM */
+        .problem-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-top: 52px;
+            align-items: start;
+        }
+
+        .problem-body {
+            font-size: 16px;
+            color: var(--muted);
+            line-height: 1.8;
+            font-weight: 300;
+        }
+        .problem-body strong { color: var(--white); font-weight: 500; }
+        .problem-body p + p { margin-top: 16px; }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 14px 14px 0;
+            padding: 26px 28px;
+            margin-bottom: 14px;
+        }
+        .big-stat {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 900;
+            font-size: 64px;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+        .stat-desc {
+            font-size: 14px;
+            color: var(--muted);
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        /* HOW IT WORKS */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 52px;
+        }
+
+        .step {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            transition: border-color 0.25s;
+        }
+        .step:hover { border-color: var(--accent-border); }
+
+        .step-num {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 900;
+            font-size: 52px;
+            color: var(--border);
+            line-height: 1;
+            margin-bottom: 18px;
+            transition: color 0.25s;
+        }
+        .step:hover .step-num { color: var(--accent-border); }
+
+        .step-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 21px;
+            color: var(--white);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            margin-bottom: 10px;
+        }
+
+        .step-body {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.68;
+            font-weight: 300;
+        }
+
+        /* WHY */
+        .why-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 52px;
+        }
+
+        .why-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            transition: border-color 0.25s;
+        }
+        .why-card:hover { border-color: var(--accent-border); }
+        .why-card.featured {
+            grid-column: span 2;
+            background: var(--accent-dim);
+            border-color: var(--accent-border);
+        }
+        .why-card.featured:hover { background: rgba(0,230,118,0.14); }
+
+        .why-icon {
+            font-size: 22px;
+            margin-bottom: 14px;
+            color: var(--accent);
+        }
+
+        .why-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 21px;
+            color: var(--white);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            margin-bottom: 10px;
+        }
+
+        .why-body {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* REGISTER */
+        .register-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 56px;
+            margin-top: 52px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .register-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--accent);
+        }
+
+        .register-box h2 { margin-bottom: 12px; }
+        .register-box .section-desc { margin: 0 auto; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            max-width: 540px;
+            margin: 32px auto 0;
+        }
+
+        .form-grid input {
+            padding: 13px 16px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+            width: 100%;
+        }
+        .form-grid input::placeholder { color: #444; }
+        .form-grid input:focus { border-color: var(--accent-border); }
+
+        .form-submit {
+            display: block;
+            width: 100%;
+            max-width: 540px;
+            margin: 10px auto 0;
+            padding: 15px;
+            background: var(--accent);
+            color: #000;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+            letter-spacing: 0.02em;
+        }
+        .form-submit:hover { background: #33ffaa; transform: translateY(-2px); }
+
+        .form-note {
+            font-size: 12px;
+            color: #444;
+            margin-top: 12px;
+        }
+
+        .form-section-label {
+            font-size: 10px;
+            font-weight: 500;
+            color: #4F8EF7;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            text-align: left;
+            margin: 20px 0 8px;
+            max-width: 540px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .form-grid select {
+            padding: 13px 16px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color .2s;
+            width: 100%;
+            appearance: none;
+        }
+        .form-grid select:focus { border-color: rgba(79,142,247,.45); }
+        .form-grid select option { background: #1a1a1a; }
+
+        .file-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 16px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: border-color .2s;
+        }
+        .file-label:hover { border-color: rgba(79,142,247,.45); }
+        .file-label input[type="file"] { display: none; }
+        .file-text { font-size: 14px; color: #444; }
+        .file-text.selected { color: var(--white); }
+
+        .consent-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            max-width: 540px;
+            margin: 10px auto 16px;
+            text-align: left;
+            cursor: pointer;
+        }
+        .consent-row input[type="checkbox"] {
+            margin-top: 3px;
+            width: 16px;
+            height: 16px;
+            accent-color: #4F8EF7;
+            flex-shrink: 0;
+        }
+        .consent-row span { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+        .form-field-wrap { width: 100%; }
+        
+            display: none;
+            color: var(--accent);
+            font-size: 16px;
+            margin-top: 24px;
+        }
+
+        /* FOOTER */
+        .footer-wrap {
+            border-top: 1px solid var(--border);
+            padding: 36px 48px;
+        }
+        .footer-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .footer-logo {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 900;
+            font-size: 20px;
+            color: var(--white);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .footer-logo span { color: var(--accent); }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+        .footer-links a {
+            font-size: 13px;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--accent); }
+
+        .footer-copy { font-size: 12px; color: #3a3a3a; }
+
+        /* ANIMATIONS */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(22px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.55s ease, transform 0.55s ease;
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            nav { padding: 16px 24px; }
+            #hero { padding: 110px 24px 60px; }
+            .hero-inner { grid-template-columns: 1fr; }
+            .hero-visual { display: none; }
+            .section-wrap { padding: 70px 24px; }
+            .problem-grid { grid-template-columns: 1fr; }
+            .steps { grid-template-columns: 1fr; }
+            .why-grid { grid-template-columns: 1fr; }
+            .why-card.featured { grid-column: span 1; }
+            .register-box { padding: 36px 20px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .footer-wrap { padding: 28px 24px; }
+            .footer-inner { flex-direction: column; gap: 14px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <a href="#" class="logo">KHELO<span>AR</span></a>
+    <a href="#register" class="nav-cta">Register Now</a>
+</nav>
+
+<!-- HERO -->
+<div style="min-height:100vh; display:flex; align-items:center; padding: 130px 48px 80px; position:relative; overflow:hidden;">
+    <div class="pitch-bg">
+        <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+            <rect x="80" y="40" width="1040" height="720" fill="none" stroke="white" stroke-width="3"/>
+            <line x1="600" y1="40" x2="600" y2="760" stroke="white" stroke-width="2"/>
+            <circle cx="600" cy="400" r="130" fill="none" stroke="white" stroke-width="2"/>
+            <circle cx="600" cy="400" r="8" fill="white"/>
+            <rect x="80" y="270" width="180" height="260" fill="none" stroke="white" stroke-width="2"/>
+            <rect x="940" y="270" width="180" height="260" fill="none" stroke="white" stroke-width="2"/>
+            <rect x="80" y="330" width="75" height="140" fill="none" stroke="white" stroke-width="2"/>
+            <rect x="1045" y="330" width="75" height="140" fill="none" stroke="white" stroke-width="2"/>
+            <circle cx="80" cy="40" r="60" fill="none" stroke="white" stroke-width="1.5"/>
+            <circle cx="1120" cy="40" r="60" fill="none" stroke="white" stroke-width="1.5"/>
+            <circle cx="80" cy="760" r="60" fill="none" stroke="white" stroke-width="1.5"/>
+            <circle cx="1120" cy="760" r="60" fill="none" stroke="white" stroke-width="1.5"/>
+        </svg>
+    </div>
+
+    <div class="hero-inner">
+        <div>
+            <div class="hero-eyebrow">Bangladesh Youth Football</div>
+            <h1>Your game<br>deserves to<br><em>be seen.</em></h1>
+            <p class="hero-sub">Kheloar helps talented footballers across Bangladesh build a professional player portfolio — so clubs and scouts can finally find you.</p>
+            <div class="hero-ctas">
+                <a href="#register" class="btn-primary">
+                    Build My Portfolio
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
+                <a href="#how" class="btn-ghost">How it works ↓</a>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="player-card">
+                <div class="card-header">
+                    <div class="avatar">RA</div>
+                    <div>
+                        <div class="card-name">Rakib Al Amin</div>
+                        <div class="card-pos">Attacking Midfielder · Dhaka Division</div>
+                    </div>
+                    <div class="card-available">Open to offers</div>
+                </div>
+                <div class="card-stats">
+                    <div class="stat">
+                        <div class="stat-val">17</div>
+                        <div class="stat-lbl">Age</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-val">AM</div>
+                        <div class="stat-lbl">Position</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-val">Right</div>
+                        <div class="stat-lbl">Foot</div>
+                    </div>
+                </div>
+                <div class="card-video">
+                    <div class="play-btn">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="#000"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    </div>
+                    <span>Highlight reel · 3:24</span>
+                </div>
+                <div class="card-tags">
+                    <span class="tag">Wari Club</span>
+                    <span class="tag">6 yrs experience</span>
+                    <span class="tag">Available for trial</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PROBLEM -->
+<div class="section-wrap" id="problem">
+    <div class="section-inner">
+        <div class="eyebrow">The problem</div>
+        <h2>Bangladesh has talent.<br><span>It lacks visibility.</span></h2>
+        <div class="problem-grid">
+            <div class="problem-body reveal">
+                <p>Thousands of young footballers across Bangladesh play every day — in school yards, local grounds, and underground leagues. <strong>Many of them are exceptional.</strong></p>
+                <p>But without the right connections or exposure, their talent stays invisible. <strong>Clubs don't know they exist. Scouts never see them play.</strong></p>
+                <p>Kheloar is the bridge. A digital platform where every player can build a professional portfolio — and get found by clubs and scouts they'd never meet otherwise.</p>
+            </div>
+            <div class="reveal">
+                <div class="stat-card">
+                    <div class="big-stat">1000s</div>
+                    <div class="stat-desc">of talented young players in Bangladesh with no professional profile or way to be discovered by clubs</div>
+                </div>
+                <div class="stat-card">
+                    <div class="big-stat">0</div>
+                    <div class="stat-desc">existing platforms connecting Bangladeshi youth players directly with scouts and academies — until now</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="section-wrap" id="how">
+    <div class="section-inner">
+        <div class="eyebrow">How it works</div>
+        <h2>Three steps to <span>get discovered</span></h2>
+        <p class="section-desc">No connections required. No experience needed. Just show up and show what you've got.</p>
+        <div class="steps">
+            <div class="step reveal">
+                <div class="step-num">01</div>
+                <div class="step-title">Register & fill your profile</div>
+                <div class="step-body">Sign up with your name, position, division, age, and stats. Takes 5 minutes on any phone. No downloads required.</div>
+            </div>
+            <div class="step reveal">
+                <div class="step-num">02</div>
+                <div class="step-title">Upload your highlights</div>
+                <div class="step-body">Share your best match clips, training videos, or achievement photos. Even a short phone video is enough — scouts want to see how you move.</div>
+            </div>
+            <div class="step reveal">
+                <div class="step-num">03</div>
+                <div class="step-title">Get seen by scouts & clubs</div>
+                <div class="step-body">Your profile enters the Kheloar database. Clubs search, filter, and reach out to you directly. You decide who to respond to.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- WHY A PORTFOLIO -->
+<div class="section-wrap" id="why">
+    <div class="section-inner">
+        <div class="eyebrow">Why a portfolio</div>
+        <h2>Your talent needs a <span>home online</span></h2>
+        <div class="why-grid">
+            <div class="why-card featured reveal">
+                <div class="why-icon">&#9711;</div>
+                <div class="why-title">Scouts can't be everywhere — but your profile can</div>
+                <div class="why-body">A scout can only attend so many matches. But a Kheloar profile is online 24/7 — viewable by any club, coach, or academy at any time. You impress once; your portfolio does the rest. It's the difference between hoping to be noticed and actively being findable.</div>
+            </div>
+            <div class="why-card reveal">
+                <div class="why-icon">&#9650;</div>
+                <div class="why-title">Stand out from the crowd</div>
+                <div class="why-body">When a club needs a striker, they want to compare options fast. A professional profile with highlights, stats, and position puts you ahead of every player who has nothing documented.</div>
+            </div>
+            <div class="why-card reveal">
+                <div class="why-icon">&#9670;</div>
+                <div class="why-title">Own your career from day one</div>
+                <div class="why-body">Instead of waiting to be discovered at a local tournament, you actively exist in a place where opportunity finds you. Your profile travels further than you can go.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- REGISTER -->
+<div class="section-wrap" id="register">
+    <div class="section-inner">
+        <div class="eyebrow">Early access</div>
+        <h2>Be the first on <span>Kheloar</span></h2>
+        <div class="register-box reveal">
+            <p class="section-desc">We're building the platform now. Register early and be among the first players with a profile when we launch. We'll contact you on WhatsApp.</p>
+            <!--
+                TO CONNECT THIS FORM:
+                Option A — Formspree (easiest): sign up free at formspree.io, get your form endpoint,
+                            replace "YOUR_FORM_ID" in the action below.
+                Option B — Google Form: delete the <form> below, add a link button to your Google Form instead.
+            -->
+            <form id="reg-form" action="https://formspree.io/f/mpqoovko" method="POST" enctype="multipart/form-data">
+
+                <div class="form-section-label">Personal info</div>
+                <div class="form-grid">
+                    <input type="text" name="name" placeholder="Full name (English)" required>
+                    <input type="text" name="name_bangla" placeholder="পুরো নাম (বাংলা)">
+                    <input type="date" name="dob" required title="Date of birth">
+                    <div class="form-field-wrap">
+                        <label class="file-label">
+                            <input type="file" name="photo" accept=".jpg,.jpeg,.png" required>
+                            <span class="file-text" id="photo-text">Profile photo (JPG or PNG)</span>
+                        </label>
+                    </div>
+                    <input type="text" name="height" placeholder="Height (cm)">
+                    <input type="text" name="weight" placeholder="Weight (kg)">
+                </div>
+
+                <div class="form-section-label">Location</div>
+                <div class="form-grid">
+                    <select name="division" required>
+                        <option value="" disabled selected>Division</option>
+                        <option>Dhaka</option><option>Chattogram</option><option>Rajshahi</option>
+                        <option>Khulna</option><option>Sylhet</option><option>Barishal</option>
+                        <option>Rangpur</option><option>Mymensingh</option>
+                    </select>
+                    <input type="text" name="district" placeholder="District (e.g. Cumilla)" required>
+                    <input type="text" name="upazila" placeholder="Upazila / Thana (optional)" style="grid-column:span 2">
+                </div>
+
+                <div class="form-section-label">Football info</div>
+                <div class="form-grid">
+                    <select name="primary_position" required>
+                        <option value="" disabled selected>Primary position</option>
+                        <option>GK — Goalkeeper</option><option>CB — Centre Back</option>
+                        <option>LB — Left Back</option><option>RB — Right Back</option>
+                        <option>CDM — Defensive Mid</option><option>CM — Central Mid</option>
+                        <option>CAM — Attacking Mid</option><option>LW — Left Wing</option>
+                        <option>RW — Right Wing</option><option>ST — Striker</option>
+                    </select>
+                    <select name="secondary_position">
+                        <option value="" disabled selected>Secondary position (optional)</option>
+                        <option>GK — Goalkeeper</option><option>CB — Centre Back</option>
+                        <option>LB — Left Back</option><option>RB — Right Back</option>
+                        <option>CDM — Defensive Mid</option><option>CM — Central Mid</option>
+                        <option>CAM — Attacking Mid</option><option>LW — Left Wing</option>
+                        <option>RW — Right Wing</option><option>ST — Striker</option>
+                    </select>
+                    <select name="dominant_foot" required>
+                        <option value="" disabled selected>Dominant foot</option>
+                        <option>Right</option><option>Left</option><option>Both</option>
+                    </select>
+                    <input type="number" name="years_playing" placeholder="Years playing (e.g. 5)" min="0" max="20" required>
+                    <input type="text" name="current_club" placeholder="Current club / school team (or 'None')" required style="grid-column:span 2">
+                    <input type="text" name="institution" placeholder="School / College / University (optional)" style="grid-column:span 2">
+                    <textarea name="achievements" placeholder="Achievements & recognition — tournaments, selections, awards (optional)" rows="3" style="grid-column:span 2; resize:vertical; padding:12px 16px; background:var(--bg); border:1px solid var(--border); border-radius:8px; color:var(--white); font-family:'DM Sans',sans-serif; font-size:14px; outline:none; transition:border-color .2s;"></textarea>
+                </div>
+
+                <div class="form-section-label">Contact</div>
+                <div class="form-grid">
+                    <input type="tel" name="whatsapp" placeholder="WhatsApp number" required>
+                    <input type="text" name="guardian_name" placeholder="Parent / guardian name (required if under 18)" required>
+                    <input type="email" name="email" placeholder="Email address (optional)" style="grid-column:span 2">
+                </div>
+
+                <div class="form-section-label">Highlights</div>
+                <div class="form-grid">
+                    <input type="url" name="youtube_link" placeholder="YouTube video link (optional)" style="grid-column:span 2">
+                    <input type="url" name="drive_link"   placeholder="Google Drive video link (optional)" style="grid-column:span 2">
+                </div>
+                <p style="font-size:12px;color:#555;text-align:left;margin:-4px 0 16px;padding:0 2px">Even a short phone video is enough. Upload to YouTube or Drive (set to "Anyone with link") and paste the URL above.</p>
+
+                <label class="consent-row">
+                    <input type="checkbox" name="consent" required>
+                    <span>I am available for trial / scouting and agree to be contacted by clubs through Kheloar.</span>
+                </label>
+
+                <button type="submit" class="form-submit">Submit My Profile →</button>
+                <p class="form-note">Your info is only used for Kheloar. No spam. Ever.</p>
+            </form>
+            <p id="success-msg">&#10003; You're in! We'll reach out on WhatsApp before launch.</p>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer-wrap">
+    <div class="footer-inner">
+        <div class="footer-logo">KHELO<span>AR</span></div>
+        <div class="footer-links">
+            <a href="https://instagram.com/kheloar" target="_blank">Instagram</a>
+            <a href="https://facebook.com/kheloar" target="_blank">Facebook</a>
+        </div>
+        <div class="footer-copy">&#169; 2025 Kheloar &middot; Bangladesh</div>
+    </div>
+</div>
+
+<script>
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => entry.target.classList.add('visible'), i * 90);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.08 });
+    reveals.forEach(el => observer.observe(el));
+
+    document.querySelector('input[name="photo"]').addEventListener('change', function() {
+        const label = document.getElementById('photo-text');
+        label.textContent = this.files[0] ? this.files[0].name : 'Profile photo (JPG or PNG)';
+        label.classList.toggle('selected', !!this.files[0]);
+    });
+
+    document.getElementById('reg-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const form = this;
+        fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { 'Accept': 'application/json' }
+        }).then(res => {
+            form.style.display = 'none';
+            document.getElementById('success-msg').style.display = 'block';
+        }).catch(() => {
+            form.style.display = 'none';
+            document.getElementById('success-msg').style.display = 'block';
+        });
+    });
+</script>
+
+</body>
+</html>
